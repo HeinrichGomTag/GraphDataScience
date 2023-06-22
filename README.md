@@ -45,3 +45,14 @@ Collective foraging/flocking behavior has practical applications in the field of
 Finally, we will provide an example code that implements item retrieval in artificial agents, demonstrating the practical application of collective foraging/flocking algorithms.
 
 This project is an exciting exploration of the intersection between nature and technology, and we hope it will provide valuable insights into the behavior of collective entities, whether they be birds in the sky, fish in the sea, or robots in a warehouse.
+
+## Authors
+- [@HeinrichGomTag - Machine Learning Expert (Full-Stack Developer)](https://github.com/HeinrichGomTag) / [@kikinacademy](https://github.com/kikinacademy)
+- [@ivannatg - ____](https://github.com/ivannatg)
+- [@Mauascm - Python Expert (Back-End Developer)](https://github.com/Mauascm)
+
+## Tech Stack
+Python
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
