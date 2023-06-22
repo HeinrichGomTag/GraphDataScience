@@ -49,7 +49,7 @@ This project is an exciting exploration of the intersection between nature and t
 ## Authors
 - [@HeinrichGomTag - Machine Learning Expert (Full-Stack Developer)](https://github.com/HeinrichGomTag) / [@kikinacademy](https://github.com/kikinacademy)
 - [@ivannatg - ____](https://github.com/ivannatg)
-- [@Mauascm - Python Expert (Back-End Developer)](https://github.com/Mauascm)
+- [@Mauascm - Computer Vision Expert (Back-End Developer)](https://github.com/Mauascm)
 
 ## Tech Stack
 Python
