@@ -21,17 +21,17 @@ This project aims to explore the fascinating world of collective foraging and fl
 5. [ ] 2.4. Basics of foraging: See Section 5 of the attached paper. For context, the paper is a so called "Review", which is a meta-study summarizing what research efforts already exist in a particular field. A review often lists different approaches. You don't have to mention every single approach in Section 5 but pick what you find interesting and talk a bit about it.
 6. [ ] 2.5. Mention task allocation: Section 11. What is it in general and why is it important to foraging
 
-#### ABM
+#### 3. ABM
 - [ ] 3. Agent-based modeling (I remember you mentioned that you'd like to talk about it, good idea, go ahead)
 
-#### MARL
+#### 4. MARL
 - [ ] 4. Multi-agent reinforcement learning (the basics are sufficient but I'm curious to see what you'll present)
 
 Ultimately, as you are a group of three, you'll need to present for 30min - 45min. The four bullet points above will give you enough work to do. You can decide yourself how much detail to cover from each of these points. For example, if you want to drill down more on agent-based modeling, feel free to keep foraging high-level, up to you.
 
 Finally, remember that you'll be presenting to a "manager/executive". So no need to deep dive into mathematics, focus on qualitative understanding.
 
-### 1. What is Collective Foraging/Flocking?
+### 1.1. What is Collective Foraging/Flocking?
 
 Collective foraging/flocking refers to the behavior exhibited by a group of entities (e.g., birds, fish, or artificial agents) where they move or work together in a coordinated manner. This behavior is often seen in nature and has been the subject of various studies in the field of artificial intelligence and robotics.
 
