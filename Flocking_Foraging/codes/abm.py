@@ -1,4 +1,5 @@
 import random  # Import the random module for generating random numbers
+import matplotlib.pyplot as plt  # Import the matplotlib.pyplot module for plotting
 
 
 class Fish:
@@ -20,6 +21,8 @@ class Aquarium:
         self.width = width  # Set the width of the aquarium
         self.height = height  # Set the height of the aquarium
         self.fish = []  # Initialize an empty list to store the fish
+        self.initial_positions = []  # List to store initial positions
+        self.final_positions = []  # List to store final positions
         for _ in range(num_fish):
             x = random.uniform(
                 0, width
@@ -29,6 +32,7 @@ class Aquarium:
             )  # Generate a random y-coordinate within the aquarium height
             fish = Fish(x, y)  # Create a new Fish object with the generated coordinates
             self.fish.append(fish)  # Add the fish to the list
+            self.initial_positions.append((x, y))  # Store initial position
 
     def simulate(self, num_steps):  # Method to simulate the movement of the fish
         steps = 1
@@ -41,6 +45,8 @@ class Aquarium:
             self.print_state(steps)  # Print the current state of the aquarium
             if steps <= num_steps:
                 steps += 1
+        for fish in self.fish:
+            self.final_positions.append((fish.x, fish.y))  # Store final position
 
     def print_state(
         self, num_steps
@@ -51,9 +57,26 @@ class Aquarium:
             )  # Print the current position of the fish
         print("------")  # Print a separator line between each simulation step
 
+    def plot_positions(self):
+        initial_x = [pos[0] for pos in self.initial_positions]
+        initial_y = [pos[1] for pos in self.initial_positions]
+        final_x = [pos[0] for pos in self.final_positions]
+        final_y = [pos[1] for pos in self.final_positions]
+
+        plt.scatter(initial_x, initial_y, color="blue", label="Initial Position")
+        plt.scatter(final_x, final_y, color="red", label="Final Position")
+        plt.xlabel("X")
+        plt.ylabel("Y")
+        plt.title("SIMPLE ABM: Initial VS Final Positions of Fish")
+        plt.legend()
+        plt.show()
+
 
 # Create an aquarium with 5 fish
-acuario = Aquarium(10, 10, 5)
+aquarium = Aquarium(10, 10, 5)
 
 # Simulate the movement of the fish for 10 time steps
-acuario.simulate(10)
+aquarium.simulate(10)
+
+# Plot the initial and final positions of the fish
+aquarium.plot_positions()
