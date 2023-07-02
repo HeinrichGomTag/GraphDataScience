@@ -19,7 +19,7 @@ This project aims to explore the fascinating world of collective foraging and fl
 3. [x] 2.2. Where do we find it in nature?
 4. [x] 2.3. Why is it useful for industry/business?
 5. [ ] 2.4. Basics of foraging: See Section 5 of the attached paper. For context, the paper is a so called "Review", which is a meta-study summarizing what research efforts already exist in a particular field. A review often lists different approaches. You don't have to mention every single approach in Section 5 but pick what you find interesting and talk a bit about it.
-6. [ ] 2.5. Mention task allocation: Section 11. What is it in general and why is it important to foraging
+6. [ ] 2.5. Task allocation: Section 11. What is it in general and why is it important to foraging
 
 #### 3. ABM
 - [ ] 3. Agent-based modeling (I remember you mentioned that you'd like to talk about it, good idea, go ahead)
