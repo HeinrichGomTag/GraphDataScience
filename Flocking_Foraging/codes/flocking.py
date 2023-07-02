@@ -2,8 +2,6 @@ import random  # Import the random module for generating random numbers
 import math  # Import the math module for mathematical operations
 import matplotlib.pyplot as plt  # Import the matplotlib.pyplot module for plotting
 
-import random
-import math
 
 
 class Agent:
