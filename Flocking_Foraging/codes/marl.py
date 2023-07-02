@@ -1,4 +1,4 @@
-import random
+﻿import random
 import math
 import matplotlib.pyplot as plt
 
@@ -31,6 +31,7 @@ class Agent:
             if distance < detection_radius and distance < closest_distance:
                 closest_food = food
                 closest_distance = distance
+
         # If there is a closest food source, move towards it; otherwise, move in a random direction
         if closest_food is not None:
             dx = closest_food[0] - self.x
@@ -44,7 +45,7 @@ class Agent:
             self.y += self.speed * math.sin(angle)
 
     def flock(self, agents):
-        separation_radius = 4  # Radius within which the agent avoids other agents
+        separation_radius = 2  # Radius within which the agent avoids other agents
         cohesion_radius = 5  # Radius within which the agent aligns with other agents
         alignment_radius = (
             5  # Radius within which the agent aligns its orientation with other agents
@@ -114,6 +115,10 @@ class Agent:
             math.sin(self.orientation), math.cos(self.orientation)
         )
 
+    def select_action(self, state):
+        # Randomly select between "forage" and "flock" actions
+        return random.choice(["forage", "flock"])
+
 
 class Simulation:
     def __init__(self, width, height, num_agents, num_food_sources):
@@ -123,6 +128,7 @@ class Simulation:
         self.initial_positions = []  # List to store the initial positions of agents
         self.final_positions = []  # List to store the final positions of agents
         self.food_sources = []  # List to store the food sources
+        self.q_tables = {}  # Dictionary to store Q-tables of agents
 
         for _ in range(num_agents):
             x = random.uniform(
@@ -140,6 +146,7 @@ class Simulation:
             )  # Create an agent with the specified attributes
             self.agents.append(agent)
             self.initial_positions.append((x, y))
+            self.q_tables[agent] = {}  # Create an empty Q-table for the agent
 
         for _ in range(num_food_sources):
             x = random.uniform(
@@ -150,54 +157,162 @@ class Simulation:
             )  # Random y-coordinate within the simulation area
             self.food_sources.append((x, y))
 
-    def simulate(self, num_steps):
-        for step in range(num_steps):
+    def calculate_reward(self, agent, state, action):
+        # Calculate the reward for the agent based on the current state and action
+        food_radius = 2  # Radius within which the agent is considered to have reached the food
+        food_reward = 1  # Reward for reaching the food
+        movement_reward = -0.1  # Penalty for movement
+        proximity_reward = 0.2  # Reward for being close to food
+        flocking_reward = 0.5  # Reward for being close to other agents
+
+        for food in self.food_sources:
+            dx = food[0] - agent.x  # Horizontal distance between the agent and the food
+            dy = food[1] - agent.y  # Vertical distance between the agent and the food
+            distance = math.sqrt(dx ** 2 + dy ** 2)  # Euclidean distance between the agent and the food
+
+            if distance < food_radius:
+                return food_reward
+
+            if distance < 2 * food_radius:
+                return proximity_reward
+
+        # Check if the agent is close to other agents
+        num_neighbors = 0
+        for other_agent in self.agents:
+            if other_agent != agent:
+                dx = other_agent.x - agent.x  # Horizontal distance between the agent and its neighbor
+                dy = other_agent.y - agent.y  # Vertical distance between the agent and its neighbor
+                distance = math.sqrt(dx ** 2 + dy ** 2)  # Euclidean distance between the agent and its neighbor
+
+                if distance < food_radius:
+                    num_neighbors += 1
+
+        if num_neighbors > 0:
+            return flocking_reward
+
+        return movement_reward
+
+    def update_q_table(self, agent, state, action, reward, next_state):
+        # Update the Q-table based on the agent's experience
+        learning_rate = 0.1  # Learning rate
+        discount_factor = 0.9  # Discount factor
+
+        q_table = self.q_tables[agent]
+
+        # Initialize the Q-value for the (state, action) pair if it doesn't exist
+        if state not in q_table:
+            q_table[state] = {action: 0}
+
+        # Retrieve the Q-value for the (state, action) pair
+        q_value = q_table[state].get(action, 0)
+
+        # Calculate the maximum Q-value for the next state
+        max_q_value = max(q_table.get(next_state, {}).values(), default=0)
+
+        # Update the Q-value using the Q-learning formula
+        new_q_value = (1 - learning_rate) * q_value + learning_rate * (
+            reward + discount_factor * max_q_value
+        )
+
+        # Update the Q-value in the Q-table
+        q_table[state][action] = new_q_value
+
+
+    def print_q_tables(self):
+        print("Q-tables for all agents:")
+        for agent in self.agents:
+            print(f"Agent: {agent}")
+            q_table = self.q_tables[agent]
+            for state in q_table:
+                print(f"    State: {state}")
+                for action in q_table[state]:
+                    print(f"        Action: {action}, Q-value: {q_table[state][action]}")
+
+    def get_state(self, agent):
+        # Retrieve the state of the agent
+        return (agent.x, agent.y, agent.orientation, agent.speed)
+
+    def get_action(self, agent, state):
+        # Select an action for the agent based on the current state
+        epsilon = 0.1  # Exploration rate
+        epsilon = 0.1  # Exploration rate
+
+        if random.uniform(0, 1) < epsilon:
+            # Explore: select a random action
+            return random.choice(["forage", "flock"])
+        else:
+            # Exploit: select the action with the highest Q-value
+            q_values = self.q_tables[agent].get(state, {})
+            if q_values:
+                max_q_value = max(q_values.values())
+                actions_with_max_q_value = [
+                    action for action, q_value in q_values.items() if q_value == max_q_value
+                ]
+                return random.choice(actions_with_max_q_value)
+            else:
+                return random.choice(["forage", "flock"])
+
+    def run(self, num_iterations):
+        for _ in range(num_iterations):
             for agent in self.agents:
-                agent.forage(self.food_sources)  # Agent forages for food
-                agent.flock(self.agents)  # Agent aligns with and avoids other agents
-                agent.update_orientation()  # Update agent's orientation
+                state = self.get_state(agent)  # Get current state of the agent
+                action = self.get_action(agent, state)  # Get action for the agent
 
-                # Wrap around the simulation area (toroidal boundary conditions)
-                if agent.x < 0 or agent.x > self.width:
-                    agent.x = agent.x % self.width
+                if action == "forage":
+                    agent.forage(self.food_sources)
+                    reward = self.calculate_reward(agent, state, action)
+                elif action == "flock":
+                    agent.flock(self.agents)
+                    reward = self.calculate_reward(agent, state, action)
 
-                if agent.y < 0 or agent.y > self.height:
-                    agent.y = agent.y % self.height
+                next_state = self.get_state(agent)  # Get next state of the agent
+                self.update_q_table(agent, state, action, reward, next_state)
 
-            if step == num_steps - 1:
-                for agent in self.agents:
-                    self.final_positions.append((agent.x, agent.y))
+        self.visualize()  # Visualize the simulation at each iteration
 
-    def print_state(self):
-        for i, agent in enumerate(self.agents):
-            print(
-                f"Agent {i+1}: position=({agent.x}, {agent.y}), speed={agent.speed:.2f}"
-            )
-
-    def plot_positions(self):
-        plt.figure(figsize=(8, 6))  # Create a new figure with the specified size
-        plt.scatter(
-            *zip(*self.initial_positions), color="blue", label="Initial Position"
-        )  # Plot the initial positions of the agents as blue dots
-        plt.scatter(
-            *zip(*self.final_positions), color="red", label="Final Position"
-        )  # Plot the final positions of the agents as red dots
-        plt.scatter(
-            *zip(*self.food_sources), color="green", label="Food Sources"
-        )  # Plot the food sources as green dots
-        plt.xlim(0, self.width)  # Set the x-axis and y-axis limits
+    def visualize(self):
+        # Visualize the simulation
+        plt.figure(figsize=(10, 10))
+        plt.xlim(0, self.width)
         plt.ylim(0, self.height)
-        plt.xlabel("X")  # Set the x and y -axis label
-        plt.ylabel("Y")
-        plt.title("Foraging + Flocking")  # Set the title of the plot
-        plt.legend()  # Display the legend
-        plt.show()  # Show the plot
+
+        # Plot food sources
+        food_x = [food[0] for food in self.food_sources]
+        food_y = [food[1] for food in self.food_sources]
+        plt.scatter(food_x, food_y, color="green", marker="o", label="Food")
+
+        # Plot agents
+        agent_x = [agent.x for agent in self.agents]
+        agent_y = [agent.y for agent in self.agents]
+        plt.scatter(
+            agent_x,
+            agent_y,
+            color="red",
+            marker="o",
+            label="Final Positions",
+        )
+
+        # Plot initial positions of agents
+        initial_x = [pos[0] for pos in self.initial_positions]
+        initial_y = [pos[1] for pos in self.initial_positions]
+        plt.scatter(
+            initial_x,
+            initial_y,
+            color="blue",
+            marker="o",
+            label="Initial Positions",
+        )
+
+        plt.legend()
+        plt.show()
 
 
-# Combined Foraging and Flocking Simulation
-simulation = Simulation(
-    20, 20, 10, 4
-)  # Create a simulation with a width of 20, height of 20, 10 agents, and 4 food sources
-simulation.simulate(150)  # Run the simulation for 150 steps
-simulation.print_state()  # Print the final state of the agents
-simulation.plot_positions()  # Plot the initial and final positions of the agents, along with the food sources
+# Create a simulation with a width of 100, height of 100, 50 agents, and 12 food sources
+simulation = Simulation(100, 100, 50, 12)
+
+# Run the simulation for 500 iterations
+simulation.run(500)
+
+# Print the Q-table
+simulation.print_q_tables() 
+
