@@ -12,7 +12,7 @@ This project aims to explore the fascinating world of collective foraging and fl
 1. [x] 1.1. What is Flocking?
 2. [x] 1.2. Where do we find it in nature?
 3. [x] 1.3. Why is it useful for industry/business?
-4. [ ] 1.4. Basics of flocking (Section 2.1), simple self-propelled particle model (Section 4.1 and Figure 31): https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=6b811738b111869d50b643d978f63adb72092223
+4. [x] 1.4. Basics of flocking (Section 2.1), simple self-propelled particle model (Section 4.1 and Figure 31): https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=6b811738b111869d50b643d978f63adb72092223
 
 #### 2. Foraging
 2. [x] 2.1. What is Foraging?
