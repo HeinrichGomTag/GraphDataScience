@@ -19,13 +19,13 @@ class Agent:
 
         for food in food_sources:
             dx = (
-                food[0] - self.x
+                    food[0] - self.x
             )  # Horizontal distance between the agent and the food source
             dy = (
-                food[1] - self.y
+                    food[1] - self.y
             )  # Vertical distance between the agent and the food source
             distance = math.sqrt(
-                dx**2 + dy**2
+                dx ** 2 + dy ** 2
             )  # Euclidean distance between the agent and the food source
 
             if distance < detection_radius and distance < closest_distance:
@@ -60,21 +60,21 @@ class Agent:
         for agent in agents:
             if agent != self:
                 dx = (
-                    agent.x - self.x
+                        agent.x - self.x
                 )  # Horizontal distance between the agent and its neighbor
                 dy = (
-                    agent.y - self.y
+                        agent.y - self.y
                 )  # Vertical distance between the agent and its neighbor
                 distance = math.sqrt(
-                    dx**2 + dy**2
+                    dx ** 2 + dy ** 2
                 )  # Euclidean distance between the agent and its neighbor
 
                 if distance < separation_radius:
                     separation_force[0] -= (
-                        dx / distance
+                            dx / distance
                     )  # Calculate separation force in the x-axis
                     separation_force[1] -= (
-                        dy / distance
+                            dy / distance
                     )  # Calculate separation force in the y-axis
 
                 if distance < cohesion_radius:
@@ -104,10 +104,10 @@ class Agent:
         )  # Update agent's y-coordinate based on its speed and orientation
 
         self.x += (
-            separation_force[0] + cohesion_force[0] + alignment_force[0]
+                separation_force[0] + cohesion_force[0] + alignment_force[0]
         )  # Update agent's x-coordinate based on separation, cohesion, and alignment forces
         self.y += (
-            separation_force[1] + cohesion_force[1] + alignment_force[1]
+                separation_force[1] + cohesion_force[1] + alignment_force[1]
         )  # Update agent's y-coordinate based on separation, cohesion, and alignment forces
 
     def update_orientation(self):
@@ -115,7 +115,8 @@ class Agent:
             math.sin(self.orientation), math.cos(self.orientation)
         )
 
-    def select_action(self, state):
+    @staticmethod
+    def select_action():
         # Randomly select between "forage" and "flock" actions
         return random.choice(["forage", "flock"])
 
@@ -157,7 +158,7 @@ class Simulation:
             )  # Random y-coordinate within the simulation area
             self.food_sources.append((x, y))
 
-    def calculate_reward(self, agent, state, action):
+    def calculate_reward(self, agent):
         # Calculate the reward for the agent based on the current state and action
         food_radius = 2  # Radius within which the agent is considered to have reached the food
         food_reward = 1  # Reward for reaching the food
@@ -211,13 +212,13 @@ class Simulation:
 
         # Update the Q-value using the Q-learning formula
         new_q_value = (1 - learning_rate) * q_value + learning_rate * (
-            reward + discount_factor * max_q_value
+                reward + discount_factor * max_q_value
         )
 
         # Update the Q-value in the Q-table
         q_table[state][action] = new_q_value
 
-
+    '''
     def print_q_tables(self):
         print("Q-tables for all agents:")
         for agent in self.agents:
@@ -227,14 +228,32 @@ class Simulation:
                 print(f"    State: {state}")
                 for action in q_table[state]:
                     print(f"        Action: {action}, Q-value: {q_table[state][action]}")
+    '''
 
-    def get_state(self, agent):
+    def print_last_actions_and_states(self):
+        print("Q-summary for agents:")
+        for agent in self.agents:
+            print(f"Agent: {agent}")
+            q_table = self.q_tables[agent]
+            last_state = None
+            last_action = None
+            last_q_value = None
+            for state in q_table:
+                last_state = state
+                for action in q_table[state]:
+                    last_action = action
+                    last_q_value = q_table[state][action]
+            print(f"    Last State: {last_state}")
+            print(f"    Last Action: {last_action}")
+            print(f"    Last Q-value: {last_q_value}")
+
+    @staticmethod
+    def get_state(agent):
         # Retrieve the state of the agent
-        return (agent.x, agent.y, agent.orientation, agent.speed)
+        return agent.x, agent.y, agent.orientation, agent.speed
 
     def get_action(self, agent, state):
         # Select an action for the agent based on the current state
-        epsilon = 0.1  # Exploration rate
         epsilon = 0.1  # Exploration rate
 
         if random.uniform(0, 1) < epsilon:
@@ -257,13 +276,14 @@ class Simulation:
             for agent in self.agents:
                 state = self.get_state(agent)  # Get current state of the agent
                 action = self.get_action(agent, state)  # Get action for the agent
+                reward = 0  # Initialize reward for the agent
 
                 if action == "forage":
                     agent.forage(self.food_sources)
-                    reward = self.calculate_reward(agent, state, action)
+                    reward = self.calculate_reward(agent)
                 elif action == "flock":
                     agent.flock(self.agents)
-                    reward = self.calculate_reward(agent, state, action)
+                    reward = self.calculate_reward(agent)
 
                 next_state = self.get_state(agent)  # Get next state of the agent
                 self.update_q_table(agent, state, action, reward, next_state)
@@ -307,12 +327,12 @@ class Simulation:
         plt.show()
 
 
-# Create a simulation with a width of 100, height of 100, 50 agents, and 12 food sources
-simulation = Simulation(100, 100, 50, 12)
+# Create a simulation with a width of 200, height of 200, 50 agents, and 30 food sources
+simulation = Simulation(200, 200, 50, 30)
 
-# Run the simulation for 500 iterations
-simulation.run(500)
+# Run the simulation for 300 iterations
+simulation.run(300)
 
 # Print the Q-table
-simulation.print_q_tables() 
-
+# simulation.print_q_tables()
+simulation.print_last_actions_and_states()

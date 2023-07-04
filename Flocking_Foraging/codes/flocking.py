@@ -3,7 +3,6 @@ import math  # Import the math module for mathematical operations
 import matplotlib.pyplot as plt  # Import the matplotlib.pyplot module for plotting
 
 
-
 class Agent:
     def __init__(self, x, y, speed, orientation):
         self.x = x  # Set the initial x-coordinate of the agent
@@ -27,23 +26,23 @@ class Agent:
                 dx = agent.x - self.x  # Calculate the difference in x-coordinates
                 dy = agent.y - self.y  # Calculate the difference in y-coordinates
                 distance = math.sqrt(
-                    dx**2 + dy**2
+                    dx ** 2 + dy ** 2
                 )  # Calculate the distance between agents
 
                 # Separation
                 if (
-                    distance < separation_radius
+                        distance < separation_radius
                 ):  # If the agent is within the separation radius
                     separation_force[0] -= (
-                        dx / distance
+                            dx / distance
                     )  # Add separation force in the x-direction
                     separation_force[1] -= (
-                        dy / distance
+                            dy / distance
                     )  # Add separation force in the y-direction
 
                 # Cohesion
                 if (
-                    distance < cohesion_radius
+                        distance < cohesion_radius
                 ):  # If the agent is within the cohesion radius
                     cohesion_force[0] += dx  # Add cohesion force in the x-direction
                     cohesion_force[1] += dy  # Add cohesion force in the y-direction
@@ -51,7 +50,7 @@ class Agent:
 
                 # Alignment
                 if (
-                    distance < alignment_radius
+                        distance < alignment_radius
                 ):  # If the agent is within the alignment radius
                     alignment_force[0] += agent.speed * math.cos(
                         agent.orientation
@@ -89,10 +88,10 @@ class Agent:
 
         # Apply separation, cohesion, and alignment forces
         self.x += (
-            separation_force[0] + cohesion_force[0] + alignment_force[0]
+                separation_force[0] + cohesion_force[0] + alignment_force[0]
         )  # Update x-coordinate based on forces
         self.y += (
-            separation_force[1] + cohesion_force[1] + alignment_force[1]
+                separation_force[1] + cohesion_force[1] + alignment_force[1]
         )  # Update y-coordinate based on forces
 
     def update_orientation(self):
@@ -162,7 +161,8 @@ class FlockSimulation:
     def print_state(self, num_steps):
         for agent in self.agents:
             print(
-                f"Agent at ({agent.x}, {agent.y}) with speed {agent.speed} and orientation {agent.orientation} at {num_steps} steps"
+                f"Agent at ({agent.x}, {agent.y}) with speed {agent.speed} and orientation {agent.orientation} at \
+                {num_steps} steps"
             )
         print("------")
 

@@ -19,13 +19,13 @@ class Agent:
 
         for food in food_sources:
             dx = (
-                food[0] - self.x
+                    food[0] - self.x
             )  # Horizontal distance between the agent and the food source
             dy = (
-                food[1] - self.y
+                    food[1] - self.y
             )  # Vertical distance between the agent and the food source
             distance = math.sqrt(
-                dx**2 + dy**2
+                dx ** 2 + dy ** 2
             )  # Euclidean distance between the agent and the food source
 
             if distance < detection_radius and distance < closest_distance:
@@ -59,21 +59,21 @@ class Agent:
         for agent in agents:
             if agent != self:
                 dx = (
-                    agent.x - self.x
+                        agent.x - self.x
                 )  # Horizontal distance between the agent and its neighbor
                 dy = (
-                    agent.y - self.y
+                        agent.y - self.y
                 )  # Vertical distance between the agent and its neighbor
                 distance = math.sqrt(
-                    dx**2 + dy**2
+                    dx ** 2 + dy ** 2
                 )  # Euclidean distance between the agent and its neighbor
 
                 if distance < separation_radius:
                     separation_force[0] -= (
-                        dx / distance
+                            dx / distance
                     )  # Calculate separation force in the x-axis
                     separation_force[1] -= (
-                        dy / distance
+                            dy / distance
                     )  # Calculate separation force in the y-axis
 
                 if distance < cohesion_radius:
@@ -103,10 +103,10 @@ class Agent:
         )  # Update agent's y-coordinate based on its speed and orientation
 
         self.x += (
-            separation_force[0] + cohesion_force[0] + alignment_force[0]
+                separation_force[0] + cohesion_force[0] + alignment_force[0]
         )  # Update agent's x-coordinate based on separation, cohesion, and alignment forces
         self.y += (
-            separation_force[1] + cohesion_force[1] + alignment_force[1]
+                separation_force[1] + cohesion_force[1] + alignment_force[1]
         )  # Update agent's y-coordinate based on separation, cohesion, and alignment forces
 
     def update_orientation(self):
@@ -171,7 +171,7 @@ class Simulation:
     def print_state(self):
         for i, agent in enumerate(self.agents):
             print(
-                f"Agent {i+1}: position=({agent.x}, {agent.y}), speed={agent.speed:.2f}"
+                f"Agent {i + 1}: position=({agent.x}, {agent.y}), speed={agent.speed:.2f}"
             )
 
     def plot_positions(self):

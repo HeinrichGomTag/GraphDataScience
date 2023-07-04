@@ -37,7 +37,7 @@ class Aquarium:
     def simulate(self, num_steps):  # Method to simulate the movement of the fish
         steps = 1
         for _ in range(
-            num_steps
+                num_steps
         ):  # Iterate for the specified number of simulation steps
             for fish in self.fish:  # Iterate over each fish in the aquarium
                 fish.swim()  # Call the swim method of the fish to simulate its movement
@@ -49,11 +49,11 @@ class Aquarium:
             self.final_positions.append((fish.x, fish.y))  # Store final position
 
     def print_state(
-        self, num_steps
+            self, num_steps
     ):  # Method to print the current state of the aquarium
         for fish in self.fish:  # Iterate over each fish in the aquarium
             print(
-                f"Fish {self.fish.index(fish) + 1} at ({fish.x}, {fish.y}) after { num_steps} steps"
+                f"Fish {self.fish.index(fish) + 1} at ({fish.x}, {fish.y}) after {num_steps} steps"
             )  # Print the current position of the fish
         print("------")  # Print a separator line between each simulation step
 

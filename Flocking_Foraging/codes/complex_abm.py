@@ -16,33 +16,33 @@ class Fish:
                 other_fish
             )  # Select a random target fish from the list
             dx = (
-                target_fish.x - self.x
+                    target_fish.x - self.x
             )  # Calculate the difference in x coordinates between the target fish and the current fish
             dy = (
-                target_fish.y - self.y
+                    target_fish.y - self.y
             )  # Calculate the difference in y coordinates between the target fish and the current fish
             distance = math.sqrt(
-                dx**2 + dy**2
+                dx ** 2 + dy ** 2
             )  # Calculate the distance between the two fish using the Euclidean distance formula
             if (
-                distance > 0
+                    distance > 0
             ):  # Check if the distance is greater than 0 to avoid division by zero
                 self.x += (
-                    dx / distance
-                ) * self.speed  # Update the x-coordinate of the fish based on the distance and speed
+                                  dx / distance
+                          ) * self.speed  # Update the x-coordinate of the fish based on the distance and speed
                 self.y += (
-                    dy / distance
-                ) * self.speed  # Update the y-coordinate of the fish based on the distance and speed
+                                  dy / distance
+                          ) * self.speed  # Update the y-coordinate of the fish based on the distance and speed
 
         # Move randomly
         angle = random.uniform(
             0, 2 * math.pi
         )  # Generate a random angle between 0 and 2*pi
         self.x += (
-            math.cos(angle) * self.speed
+                math.cos(angle) * self.speed
         )  # Update the x-coordinate of the fish based on the random angle and speed
         self.y += (
-            math.sin(angle) * self.speed
+                math.sin(angle) * self.speed
         )  # Update the y-coordinate of the fish based on the random angle and speed
 
 
@@ -72,13 +72,13 @@ class Aquarium:
     def simulate(self, num_steps):
         steps = 1
         for _ in range(
-            num_steps
+                num_steps
         ):  # Iterate for the specified number of simulation steps
             for i, fish in enumerate(
-                self.fish
+                    self.fish
             ):  # Iterate over each fish in the aquarium
                 other_fish = (
-                    self.fish[:i] + self.fish[i + 1 :]
+                        self.fish[:i] + self.fish[i + 1:]
                 )  # Exclude the current fish from the list of other fish
                 fish.swim(
                     other_fish
@@ -99,20 +99,21 @@ class Aquarium:
         if fish.x < 0:  # If the fish goes beyond the left boundary of the aquarium
             fish.x += self.width  # Wrap it around to the right boundary
         elif (
-            fish.x > self.width
+                fish.x > self.width
         ):  # If the fish goes beyond the right boundary of the aquarium
             fish.x -= self.width  # Wrap it around to the left boundary
         if fish.y < 0:  # If the fish goes beyond the top boundary of the aquarium
             fish.y += self.height  # Wrap it around to the bottom boundary
         elif (
-            fish.y > self.height
+                fish.y > self.height
         ):  # If the fish goes beyond the bottom boundary of the aquarium
             fish.y -= self.height  # Wrap it around to the top boundary
 
     def print_state(self, num_steps):
         for fish in self.fish:  # Iterate over each fish in the aquarium
             print(
-                f"Fish {self.fish.index(fish) + 1} at ({fish.x}, {fish.y}) with speed {fish.speed}m/s after {num_steps} seconds"
+                f"Fish {self.fish.index(fish) + 1} at ({fish.x}, {fish.y}) with speed {fish.speed}m/s after \
+                {num_steps} seconds"
             )  # Print the current position and speed of the fish
         print("------")  # Print a line separator to separate each simulation step
 

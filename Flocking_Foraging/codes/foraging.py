@@ -24,11 +24,11 @@ class Agent:
             dx = food[0] - self.x  # Calculate the difference in x-coordinates
             dy = food[1] - self.y  # Calculate the difference in y-coordinates
             distance = math.sqrt(
-                dx**2 + dy**2
+                dx ** 2 + dy ** 2
             )  # Calculate the distance between the agent and the food source
 
             if (
-                distance < detection_radius and distance < closest_distance
+                    distance < detection_radius and distance < closest_distance
             ):  # If the food source is within the detection radius and closer than the previous closest food source
                 closest_food = food  # Update the closest food source
                 closest_distance = distance  # Update the closest distance
