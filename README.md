@@ -18,14 +18,14 @@ This project aims to explore the fascinating world of collective foraging and fl
 2. [x] 2.1. What is Foraging?
 3. [x] 2.2. Where do we find it in nature?
 4. [x] 2.3. Why is it useful for industry/business?
-5. [ ] 2.4. Basics of foraging: See Section 5 of the attached paper. For context, the paper is a so called "Review", which is a meta-study summarizing what research efforts already exist in a particular field. A review often lists different approaches. You don't have to mention every single approach in Section 5 but pick what you find interesting and talk a bit about it.
-6. [ ] 2.5. Task allocation: Section 11. What is it in general and why is it important to foraging
+5. [x] 2.4. Basics of foraging: See Section 5 of the attached paper. For context, the paper is a so called "Review", which is a meta-study summarizing what research efforts already exist in a particular field. A review often lists different approaches. You don't have to mention every single approach in Section 5 but pick what you find interesting and talk a bit about it.
+6. [x] 2.5. Task allocation: Section 11. What is it in general and why is it important to foraging
 
 #### 3. ABM
-- [ ] 3. Agent-based modeling (I remember you mentioned that you'd like to talk about it, good idea, go ahead)
+- [x] 3. Agent-based modeling (I remember you mentioned that you'd like to talk about it, good idea, go ahead)
 
 #### 4. MARL
-- [ ] 4. Multi-agent reinforcement learning (the basics are sufficient but I'm curious to see what you'll present)
+-  [x] 4. Multi-agent reinforcement learning (the basics are sufficient but I'm curious to see what you'll present)
 
 Ultimately, as you are a group of three, you'll need to present for 30min - 45min. The four bullet points above will give you enough work to do. You can decide yourself how much detail to cover from each of these points. For example, if you want to drill down more on agent-based modeling, feel free to keep foraging high-level, up to you.
 
