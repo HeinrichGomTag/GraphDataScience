@@ -39,5 +39,3 @@ Finally, remember that you'll be presenting to a "manager/executive". So no need
 ## Tech Stack
 Python
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
